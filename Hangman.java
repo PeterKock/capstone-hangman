@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class Hangman {
 
@@ -104,5 +105,15 @@ public class Hangman {
             System.out.print(c + " ");
         }
         System.out.println("\n"); // Add spacing for clarity
+
+        Scanner scanner = new Scanner(System.in);
+
+        // Temporary test: Get a guess from the user
+        System.out.print("Enter a letter: ");
+        char guess = scanner.next().charAt(0);
+        System.out.println("You guessed: " + guess);
+
+        scanner.close();
+
     }
 }

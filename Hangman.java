@@ -119,7 +119,7 @@ public class Hangman {
     for (int i = 0; i < word.length(); i++) {
         if (word.charAt(i) == guess) {
             isCorrect = true;
-            // (Have to update placeholders)
+            placeholders[i] = guess;
         }
     }
 
@@ -134,6 +134,12 @@ public class Hangman {
         System.out.print(c + " ");
     }
     System.out.println();
+
+    System.out.print("Updated word: ");
+    for (char c : placeholders) {
+    System.out.print(c + " ");
+    }
+    System.out.println("\n");
 
     scanner.close();
 }

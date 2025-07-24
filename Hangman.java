@@ -92,56 +92,77 @@ public class Hangman {
 
     public static void main(String[] args) {
 
+    // Pick a random word and prepare placeholders
     String word = randomWord(); // The word the user needs to guess
     char[] placeholders = new char[word.length()]; // Array to hold _ _ _ placeholders
-    ArrayList<Character> missedGuesses = new ArrayList<>(); // List of wrong guesses
+    ArrayList<Character> missedGuesses = new ArrayList<>(); // List to track incorrect guesses
+    Scanner scanner = new Scanner(System.in);
 
+    // Fill the placeholder array with underscores
     for (int i = 0; i < placeholders.length; i++) {
         placeholders[i] = '_';
     }
 
-    // Display the initial word state with underscores
-    System.out.print("Word: ");
-    for (char c : placeholders) {
-        System.out.print(c + " ");
-    }
-    System.out.println("\n"); // Add spacing for clarity
+    // Main game loop: continues until win or 6 incorrect guesses
+    while (true) {
+        // Display current gallows state based on number of misses
+        System.out.println(gallows[missedGuesses.size()]);
 
-    Scanner scanner = new Scanner(System.in);
+        // Display current state of the word using placeholders
+        System.out.print("Word: ");
+        for (char c : placeholders) {
+            System.out.print(c + " ");
+        }
+        System.out.println("\n"); // Add space after word
 
-    // Prompt user for input
-    System.out.print("Enter a letter: ");
-    char guess = scanner.next().charAt(0);
-    System.out.println("You guessed: " + guess);
+        // Display list of incorrect guesses
+        System.out.print("Misses: ");
+        for (char c : missedGuesses) {
+            System.out.print(c + " ");
+        }
+        System.out.println("\n"); // Extra line after misses
 
-    // Check if guess is in the word
-    boolean isCorrect = false;
-    for (int i = 0; i < word.length(); i++) {
-        if (word.charAt(i) == guess) {
-            isCorrect = true;
-            placeholders[i] = guess;
+        // Prompt user for input
+        System.out.print("Guess: ");
+        char guess = scanner.next().toLowerCase().charAt(0);
+
+        boolean isCorrect = false;
+
+        // Check if guess exists in the word, update placeholders if it does
+        for (int i = 0; i < word.length(); i++) {
+            if (word.charAt(i) == guess) {
+                placeholders[i] = guess;
+                isCorrect = true;
+            }
+        }
+
+        // If guess was wrong and hasn't been guessed before, track it
+        if (!isCorrect && !missedGuesses.contains(guess)) {
+            missedGuesses.add(guess);
+        }
+
+        // Display the updated word after processing the guess
+        System.out.print("Updated word: ");
+        for (char c : placeholders) {
+            System.out.print(c + " ");
+        }
+        System.out.println("\n"); // Add spacing for clarity
+
+        // Check win condition: if there are no underscores left
+        if (String.valueOf(placeholders).equals(word)) {
+            System.out.println("You win! The word was: " + word);
+            break;
+        }
+
+        // Check loss condition: 6 incorrect guesses
+        if (missedGuesses.size() == 6) {
+            System.out.println(gallows[6]);
+            System.out.println("You lose! The word was: " + word);
+            break;
         }
     }
 
-    // If not correct, track the miss
-    if (!isCorrect) {
-        missedGuesses.add(guess);
-    }
-
-    // Show missed letters
-    System.out.print("Misses: ");
-    for (char c : missedGuesses) {
-        System.out.print(c + " ");
-    }
-    System.out.println();
-
-    System.out.print("Updated word: ");
-    for (char c : placeholders) {
-    System.out.print(c + " ");
-    }
-    System.out.println("\n");
-
-    scanner.close();
+    scanner.close(); // Close input resource
 }
 
 }

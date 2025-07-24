@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -91,29 +92,50 @@ public class Hangman {
 
     public static void main(String[] args) {
 
-        String word = randomWord(); // The word the user needs to guess
-        char[] placeholders = new char[word.length()]; // Array to hold _ _ _ placeholders
+    String word = randomWord(); // The word the user needs to guess
+    char[] placeholders = new char[word.length()]; // Array to hold _ _ _ placeholders
+    ArrayList<Character> missedGuesses = new ArrayList<>(); // List of wrong guesses
 
-        // Fill the placeholders array with underscores
-        for (int i = 0; i < placeholders.length; i++) {
-            placeholders[i] = '_';
-        }
-
-        // Display the initial word state with underscores
-        System.out.print("Word: ");
-        for (char c : placeholders) {
-            System.out.print(c + " ");
-        }
-        System.out.println("\n"); // Add spacing for clarity
-
-        Scanner scanner = new Scanner(System.in);
-
-        // Temporary test: Get a guess from the user
-        System.out.print("Enter a letter: ");
-        char guess = scanner.next().charAt(0);
-        System.out.println("You guessed: " + guess);
-
-        scanner.close();
-
+    for (int i = 0; i < placeholders.length; i++) {
+        placeholders[i] = '_';
     }
+
+    // Display the initial word state with underscores
+    System.out.print("Word: ");
+    for (char c : placeholders) {
+        System.out.print(c + " ");
+    }
+    System.out.println("\n"); // Add spacing for clarity
+
+    Scanner scanner = new Scanner(System.in);
+
+    // Prompt user for input
+    System.out.print("Enter a letter: ");
+    char guess = scanner.next().charAt(0);
+    System.out.println("You guessed: " + guess);
+
+    // Check if guess is in the word
+    boolean isCorrect = false;
+    for (int i = 0; i < word.length(); i++) {
+        if (word.charAt(i) == guess) {
+            isCorrect = true;
+            // (Have to update placeholders)
+        }
+    }
+
+    // If not correct, track the miss
+    if (!isCorrect) {
+        missedGuesses.add(guess);
+    }
+
+    // Show missed letters
+    System.out.print("Misses: ");
+    for (char c : missedGuesses) {
+        System.out.print(c + " ");
+    }
+    System.out.println();
+
+    scanner.close();
+}
+
 }

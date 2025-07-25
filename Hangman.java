@@ -103,6 +103,19 @@ public class Hangman {
         System.out.println("\n"); // Add space after the word
     }
 
+    /**
+     * Prints the list of incorrect guesses made by the user.
+     *
+     * @param missedGuesses A list containing incorrect letter guesses or '*' for wrong full-word attempts.
+     */
+    public static void printMisses(ArrayList<Character> missedGuesses) {
+        System.out.print("Misses: ");
+        for (char c : missedGuesses) {
+            System.out.print(c + " ");
+        }
+        System.out.println("\n"); // Extra line after misses
+    }
+
     public static void main(String[] args) {
 
         // Pick a random word and prepare placeholders
@@ -123,12 +136,7 @@ public class Hangman {
 
         printPlaceholders(placeholders);
 
-        // Display list of incorrect guesses
-        System.out.print("Misses: ");
-        for (char c : missedGuesses) {
-            System.out.print(c + " ");
-        }
-        System.out.println("\n"); // Extra line after misses
+        printMisses(missedGuesses);
 
         // Prompt user for input
         System.out.print("Guess: ");

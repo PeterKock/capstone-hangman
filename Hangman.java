@@ -136,6 +136,26 @@ public class Hangman {
         return missedGuesses.contains(guess);
     }
 
+    /**
+     * Updates the placeholders array if the guessed letter is in the word.
+     *
+     * @param guess The guessed letter.
+     * @param word The target word.
+     * @param placeholders The current placeholder array.
+     * @return true if the guess was correct, false otherwise.
+     */
+    public static boolean updatePlaceholders(char guess, String word, char[] placeholders) {
+        boolean isCorrect = false;
+        for (int i = 0; i < word.length(); i++) {
+            if (word.charAt(i) == guess) {
+                placeholders[i] = guess;
+                isCorrect = true;
+            }
+        }
+        return isCorrect;
+    }
+
+
     public static void main(String[] args) {
 
         // Pick a random word and prepare placeholders
@@ -185,17 +205,7 @@ public class Hangman {
             continue;
         }
 
-        boolean isCorrect = false;
-
-        // Check if guess exists in the word, update placeholders if it does
-        for (int i = 0; i < word.length(); i++) {
-            if (word.charAt(i) == guess) {
-                placeholders[i] = guess;
-                isCorrect = true;
-            }
-        }
-
-        // If guess was wrong, track it
+        boolean isCorrect = updatePlaceholders(guess, word, placeholders);
         if (!isCorrect) {
             missedGuesses.add(guess);
         }

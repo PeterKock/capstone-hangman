@@ -171,7 +171,6 @@ public class Hangman {
         return true;
     }
 
-
     public static void main(String[] args) {
 
         // Pick a random word and prepare placeholders
@@ -190,8 +189,10 @@ public class Hangman {
         // Display current gallows state based on number of misses
         System.out.println(gallows[missedGuesses.size()]);
 
+        // Display the current state of the word with guessed letters and underscores
         printPlaceholders(placeholders);
 
+        // Display all incorrect guesses made so far
         printMisses(missedGuesses);
 
         // Prompt user for input
@@ -216,11 +217,14 @@ public class Hangman {
         // Otherwise treat it as a single letter guess
         char guess = input.charAt(0);
 
+        // Check if the letter has already been guessed (either correct or incorrect)
         if (alreadyGuessed(guess, placeholders, missedGuesses)) {
             System.out.println("You already guessed that letter. Try a different one.\n");
             continue;
         }
 
+        // Try updating the placeholders with the guessed letter
+        // If the guess is incorrect (not found in the word), add it to missed guesses
         boolean isCorrect = updatePlaceholders(guess, word, placeholders);
         if (!isCorrect) {
             missedGuesses.add(guess);

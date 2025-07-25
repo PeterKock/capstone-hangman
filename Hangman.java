@@ -171,6 +171,17 @@ public class Hangman {
         return true;
     }
 
+    /**
+     * Prompts the user to enter a guess and returns it as a lowercase string.
+     *
+     * @param scanner The Scanner object used to read user input.
+     * @return The user's input in lowercase.
+     */
+    public static String getUserInput(Scanner scanner) {
+        System.out.print("Guess: ");
+        return scanner.next().toLowerCase();
+    }
+
     public static void main(String[] args) {
 
         // Pick a random word and prepare placeholders
@@ -196,8 +207,7 @@ public class Hangman {
         printMisses(missedGuesses);
 
         // Prompt user for input
-        System.out.print("Guess: ");
-        String input = scanner.next().toLowerCase();
+        String input = getUserInput(scanner);
 
         // If input is the full word and correct - win
         if (input.equals(word)) {

@@ -155,6 +155,22 @@ public class Hangman {
         return isCorrect;
     }
 
+    /**
+     * Checks if the player has guessed the entire word.
+     *
+     * @param word The target word.
+     * @param placeholders The current placeholder array.
+     * @return true if all letters have been guessed, false otherwise.
+     */
+    public static boolean checkWin(String word, char[] placeholders) {
+        for (int i = 0; i < word.length(); i++) {
+            if (placeholders[i] != word.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public static void main(String[] args) {
 
@@ -218,7 +234,7 @@ public class Hangman {
         System.out.println("\n"); // Add spacing for clarity
 
         // Check win condition: if there are no underscores left
-        if (String.valueOf(placeholders).equals(word)) {
+        if (checkWin(word, placeholders)) {
             System.out.println("You win! The word was: " + word);
             break;
         }

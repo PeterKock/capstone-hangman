@@ -78,6 +78,21 @@ public class Hangman {
         "     |\n" +
         " =========\n"};
 
+    
+    // -----------------------------------------------------------------------------
+    // Method Overview (Helper Functions)
+    // -----------------------------------------------------------------------------
+    // randomWord()           - Randomly selects a target word from a predefined list
+    // printPlaceholders()    - Displays the current word progress (e.g., "_ a _ _")
+    // printMisses()          - Displays all incorrect guesses made so far
+    // alreadyGuessed()       - Checks if a guess (letter) was already attempted
+    // updatePlaceholders()   - Reveals guessed letters in the correct positions
+    // checkWin()             - Determines if the full word has been guessed
+    // getUserInput()         - Handles user input and normalizes it to lowercase
+    // printUpdatedWord()     - Displays the current state of the word after guess
+    // handleFullWordGuess()  - Processes full-word guesses and updates state
+    // -----------------------------------------------------------------------------
+    
     /**
      * Selects and returns a random word from the static list of animal names.
      * This method uses java.util.Random to generate a random index.
@@ -215,6 +230,18 @@ public class Hangman {
         }
     }
 
+    /**
+     * The main method initializes the game state, handles user input,
+     * and controls the overall game loop.
+     *
+     * Game Flow Overview:
+     * 1. Initializes word, placeholders, and missed guesses
+     * 2. Displays gallows, placeholders, and misses each round
+     * 3. Gets and processes user input (letter or full-word guess)
+     * 4. Checks for win/loss conditions
+     * 5. Loops until the game ends (win or 6 mistakes)
+     */
+
     public static void main(String[] args) {
 
         // Pick a random word and prepare placeholders
@@ -237,7 +264,7 @@ public class Hangman {
 
         // Main game loop: continues until win or 6 incorrect guesses
         while (true) {
-            
+
         // Display current gallows state based on number of misses
         System.out.println(gallows[missedGuesses.size()]);
 

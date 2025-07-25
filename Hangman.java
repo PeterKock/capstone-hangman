@@ -22,7 +22,7 @@ public class Hangman {
     * An array of strings representing the Hangman gallows at each stage of incorrect guesses.
     * Each index corresponds to the number of wrong guesses made (0 to 6).
     */
-    public static String[] gallows = {"+---+\n" +
+    public static String[] gallows = {"\n+---+\n" +
         "|   |\n" +
         "    |\n" +
         "    |\n" +
@@ -240,6 +240,7 @@ public class Hangman {
         // Check win condition: if there are no underscores left
         if (checkWin(word, placeholders)) {
             System.out.println("You win! The word was: " + word);
+            System.out.println();
             break;
         }
 
@@ -247,6 +248,7 @@ public class Hangman {
         if (missedGuesses.size() == 6) {
             System.out.println(gallows[6]);
             System.out.println("You lose! The word was: " + word);
+            System.out.println();
             break;
         }
     }

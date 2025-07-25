@@ -92,19 +92,19 @@ public class Hangman {
 
     public static void main(String[] args) {
 
-    // Pick a random word and prepare placeholders
-    String word = randomWord(); // The word the user needs to guess
-    char[] placeholders = new char[word.length()]; // Array to hold _ _ _ placeholders
-    ArrayList<Character> missedGuesses = new ArrayList<>(); // List to track incorrect guesses
-    Scanner scanner = new Scanner(System.in);
+        // Pick a random word and prepare placeholders
+        String word = randomWord(); // The word the user needs to guess
+        char[] placeholders = new char[word.length()]; // Array to hold _ _ _ placeholders
+        ArrayList<Character> missedGuesses = new ArrayList<>(); // List to track incorrect guesses
+        Scanner scanner = new Scanner(System.in);
 
-    // Fill the placeholder array with underscores
-    for (int i = 0; i < placeholders.length; i++) {
-        placeholders[i] = '_';
-    }
+        // Fill the placeholder array with underscores
+            for (int i = 0; i < placeholders.length; i++) {
+            placeholders[i] = '_';
+        }
 
-    // Main game loop: continues until win or 6 incorrect guesses
-    while (true) {
+        // Main game loop: continues until win or 6 incorrect guesses
+            while (true) {
         // Display current gallows state based on number of misses
         System.out.println(gallows[missedGuesses.size()]);
 
@@ -124,7 +124,26 @@ public class Hangman {
 
         // Prompt user for input
         System.out.print("Guess: ");
-        char guess = scanner.next().toLowerCase().charAt(0);
+        String input = scanner.next().toLowerCase();
+
+        // If input is the full word and correct - win
+        if (input.equals(word)) {
+            System.out.println("You win! The word was: " + word);
+            break;
+        }
+
+        // If input is longer than 1 char and incorrect - count as a wrong guess
+        if (input.length() > 1) {
+            System.out.println("Incorrect word guess.");
+
+            // Add a unique dummy character to represent each wrong full-word guess
+            missedGuesses.add('*'); // Using '*' just as a placeholder
+            continue;
+        }
+
+        // Otherwise treat it as a single letter guess
+        char guess = input.charAt(0);
+
 
         // Check if the letter was already guessed (either correct or incorrect)
         boolean alreadyGuessed = false;

@@ -218,18 +218,26 @@ public class Hangman {
     public static void main(String[] args) {
 
         // Pick a random word and prepare placeholders
-        String word = randomWord(); // The word the user needs to guess
-        char[] placeholders = new char[word.length()]; // Array to hold _ _ _ placeholders
-        ArrayList<Character> missedGuesses = new ArrayList<>(); // List to track incorrect guesses
+
+        // The word the user needs to guess
+        String word = randomWord();
+
+        // Array to hold _ _ _ placeholders
+        char[] placeholders = new char[word.length()];
+
+        // List to track incorrect guesses
+        ArrayList<Character> missedGuesses = new ArrayList<>();
+
         Scanner scanner = new Scanner(System.in);
 
-        // Fill the placeholder array with underscores
+            // Fill the placeholder array with underscores
             for (int i = 0; i < placeholders.length; i++) {
             placeholders[i] = '_';
         }
 
         // Main game loop: continues until win or 6 incorrect guesses
-            while (true) {
+        while (true) {
+            
         // Display current gallows state based on number of misses
         System.out.println(gallows[missedGuesses.size()]);
 
@@ -284,7 +292,8 @@ public class Hangman {
         }
     }
 
-    scanner.close(); // Close input resource
+    // Close input resource
+    scanner.close();
 }
 
 }

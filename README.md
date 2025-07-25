@@ -18,5 +18,5 @@ The game randomly selects an animal name from a predefined list and challenges t
 
 ## How to Run in terminal
 
-javac Hangman.java
-java Hangman
+- javac Hangman.java
+- java Hangman

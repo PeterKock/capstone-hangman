@@ -182,6 +182,19 @@ public class Hangman {
         return scanner.next().toLowerCase();
     }
 
+    /**
+     * Prints the updated word after each guess with a header label.
+     *
+     * @param placeholders The array of guessed letters and remaining blanks.
+     */
+    public static void printUpdatedWord(char[] placeholders) {
+        System.out.print("Updated word: ");
+        for (char c : placeholders) {
+            System.out.print(c + " ");
+        }
+        System.out.println("\n"); // Add spacing for clarity
+    }
+
     public static void main(String[] args) {
 
         // Pick a random word and prepare placeholders
@@ -241,11 +254,7 @@ public class Hangman {
         }
 
         // Display the updated word after processing the guess
-        System.out.print("Updated word: ");
-        for (char c : placeholders) {
-            System.out.print(c + " ");
-        }
-        System.out.println("\n"); // Add spacing for clarity
+        printUpdatedWord(placeholders);
 
         // Check win condition: if there are no underscores left
         if (checkWin(word, placeholders)) {

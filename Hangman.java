@@ -90,6 +90,19 @@ public class Hangman {
         return words[randomIndex];
     }
 
+    /**
+     * Prints the current state of the guessed word with spaces between letters.
+     *
+     * @param placeholders The array representing correct guesses and blanks.
+     */
+    public static void printPlaceholders(char[] placeholders) {
+        System.out.print("Word: ");
+        for (char c : placeholders) {
+            System.out.print(c + " ");
+        }
+        System.out.println("\n"); // Add space after the word
+    }
+
     public static void main(String[] args) {
 
         // Pick a random word and prepare placeholders
@@ -108,12 +121,7 @@ public class Hangman {
         // Display current gallows state based on number of misses
         System.out.println(gallows[missedGuesses.size()]);
 
-        // Display current state of the word using placeholders
-        System.out.print("Word: ");
-        for (char c : placeholders) {
-            System.out.print(c + " ");
-        }
-        System.out.println("\n"); // Add space after word
+        printPlaceholders(placeholders);
 
         // Display list of incorrect guesses
         System.out.print("Misses: ");

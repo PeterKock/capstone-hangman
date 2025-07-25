@@ -22,61 +22,64 @@ public class Hangman {
     * An array of strings representing the Hangman gallows at each stage of incorrect guesses.
     * Each index corresponds to the number of wrong guesses made (0 to 6).
     */
-    public static String[] gallows = {"\n+---+\n" +
-        "|   |\n" +
-        "    |\n" +
-        "    |\n" +
-        "    |\n" +
-        "    |\n" +
-        "=========\n",
+    public static String[] gallows = {
+    "\n +---+\n" +
+    " |   |\n" +
+    "     |\n" +
+    "     |\n" +
+    "     |\n" +
+    "     |\n" +
+    "=========\n",
 
-        "+---+\n" +
-        "|   |\n" +
-        "O   |\n" +
-        "    |\n" +
-        "    |\n" +
-        "    |\n" +
-        "=========\n",
+    "\n +---+\n" +
+    " |   |\n" +
+    " O   |\n" +
+    "     |\n" +
+    "     |\n" +
+    "     |\n" +
+    "=========\n",
 
-        "+---+\n" +
-        "|   |\n" +
-        "O   |\n" +
-        "|   |\n" +
-        "    |\n" +
-        "    |\n" +
-        "=========\n",
+    "\n +---+\n" +
+    " |   |\n" +
+    " O   |\n" +
+    " |   |\n" +
+    "     |\n" +
+    "     |\n" +
+    "=========\n",
 
-        " +---+\n" +
-        " |   |\n" +
-        " O   |\n" +
-        "/|   |\n" +
-        "     |\n" +
-        "     |\n" +
-        " =========\n",
+    "\n +---+\n" +
+    " |   |\n" +
+    " O   |\n" +
+    "/|   |\n" +
+    "     |\n" +
+    "     |\n" +
+    "=========\n",
 
-        " +---+\n" +
-        " |   |\n" +
-        " O   |\n" +
-        "/|\\  |\n" + // backslash requires escaping: \\
-        "     |\n" +
-        "     |\n" +
-        " =========\n",
+    "\n +---+\n" +
+    " |   |\n" +
+    " O   |\n" +
+    "/|\\  |\n" + // backslash requires escaping: \\
+    "     |\n" +
+    "     |\n" +
+    "=========\n",
 
-        " +---+\n" +
-        " |   |\n" +
-        " O   |\n" +
-        "/|\\  |\n" +
-        "/    |\n" +
-        "     |\n" +
-        " =========\n",
+    "\n +---+\n" +
+    " |   |\n" +
+    " O   |\n" +
+    "/|\\  |\n" +
+    "/    |\n" +
+    "     |\n" +
+    "=========\n",
 
-        " +---+\n" +
-        " |   |\n" +
-        " O   |\n" +
-        "/|\\  |\n" + 
-        "/ \\  |\n" +
-        "     |\n" +
-        " =========\n"};
+    "\n +---+\n" +
+    " |   |\n" +
+    " O   |\n" +
+    "/|\\  |\n" +
+    "/ \\  |\n" + // backslash requires escaping: \\
+    "     |\n" +
+    "=========\n"
+};
+
 
     
     // -----------------------------------------------------------------------------
@@ -193,24 +196,24 @@ public class Hangman {
      * @return The user's input in lowercase.
      */
     public static String getUserInput(Scanner scanner) {
-        System.out.print("Guess: ");
+        System.out.print("Enter a letter to guess: ");
         return scanner.next().toLowerCase();
     }
 
-    /**
-     * Prints the updated word after each guess with a header label.
-     *
-     * @param placeholders The array of guessed letters and remaining blanks.
-     */
-    public static void printUpdatedWord(char[] placeholders) {
-        System.out.print("Updated word: ");
-        for (char c : placeholders) {
-            System.out.print(c + " ");
-        }
+    // /**
+    //  * Prints the updated word after each guess with a header label.
+    //  *
+    //  * @param placeholders The array of guessed letters and remaining blanks.
+    //  */
+    // public static void printUpdatedWord(char[] placeholders) {
+    //     System.out.print("Updated word: ");
+    //     for (char c : placeholders) {
+    //         System.out.print(c + " ");
+    //     }
         
-        // Add spacing for clarity
-        System.out.println("\n"); 
-    }
+    //     // Add spacing for clarity
+    //     System.out.println("\n"); 
+    // }
 
     /**
      * Handles full-word guesses by the user. If correct, ends the game.
@@ -228,7 +231,7 @@ public class Hangman {
             // game ends
             return true;
         } else {
-            System.out.println("Incorrect word guess.");
+            System.out.println("\nIncorrect word guess.");
 
             // Add a penalty marker
             missedGuesses.add('*');
@@ -306,8 +309,8 @@ public class Hangman {
             missedGuesses.add(guess);
         }
 
-        // Display the updated word after processing the guess
-        printUpdatedWord(placeholders);
+        // // Display the updated word after processing the guess
+        // printUpdatedWord(placeholders);
 
         // Check win condition: if there are no underscores left
         if (checkWin(word, placeholders)) {

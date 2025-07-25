@@ -145,7 +145,7 @@ public class Hangman {
 
             // Check if the letter has already been guessed (either correct or incorrect)
             if (alreadyGuessed(guess, placeholders, missedGuesses)) {
-                System.out.println("You already guessed that letter. Try a different one.\n");
+                System.out.println("\nYou already guessed that letter. Try a different one.");
                 continue;
             }
 

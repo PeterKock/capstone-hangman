@@ -195,6 +195,26 @@ public class Hangman {
         System.out.println("\n"); // Add spacing for clarity
     }
 
+    /**
+     * Handles full-word guesses by the user. If correct, ends the game.
+     * If incorrect, adds a penalty marker and returns false.
+     *
+     * @param input The user's input.
+     * @param word The correct word to guess.
+     * @param missedGuesses List of missed guesses to update on failure.
+     * @return true if the game should end, false otherwise.
+     */
+    public static boolean handleFullWordGuess(String input, String word, ArrayList<Character> missedGuesses) {
+        if (input.equals(word)) {
+            System.out.println("You win! The word was: " + word);
+            return true; // game ends
+        } else {
+            System.out.println("Incorrect word guess.");
+            missedGuesses.add('*'); // Add a penalty marker
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
 
         // Pick a random word and prepare placeholders
@@ -222,18 +242,10 @@ public class Hangman {
         // Prompt user for input
         String input = getUserInput(scanner);
 
-        // If input is the full word and correct - win
-        if (input.equals(word)) {
-            System.out.println("You win! The word was: " + word);
-            break;
-        }
-
-        // If input is longer than 1 char and incorrect - count as a wrong guess
+        // If the user enters more than one character, treat it as a full-word guess.
+        // If correct, end the game. If incorrect, add a penalty and skip the rest of the loop.
         if (input.length() > 1) {
-            System.out.println("Incorrect word guess.");
-
-            // Add a unique dummy character to represent each wrong full-word guess
-            missedGuesses.add('*'); // Using '*' just as a placeholder
+            if (handleFullWordGuess(input, word, missedGuesses)) break;
             continue;
         }
 

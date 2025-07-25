@@ -126,6 +126,28 @@ public class Hangman {
         System.out.print("Guess: ");
         char guess = scanner.next().toLowerCase().charAt(0);
 
+        // Check if the letter was already guessed (either correct or incorrect)
+        boolean alreadyGuessed = false;
+
+        // Check if guess is in placeholders (already guessed correctly)
+        for (char c : placeholders) {
+            if (c == guess) {
+                alreadyGuessed = true;
+                break;
+            }
+        }
+
+        // Check if guess is in missedGuesses (already guessed incorrectly)
+        if (missedGuesses.contains(guess)) {
+            alreadyGuessed = true;
+        }
+
+        // If already guessed, skip this turn
+        if (alreadyGuessed) {
+            System.out.println("You already guessed that letter. Try a different one.\n");
+            continue;
+        }
+
         boolean isCorrect = false;
 
         // Check if guess exists in the word, update placeholders if it does
@@ -136,8 +158,8 @@ public class Hangman {
             }
         }
 
-        // If guess was wrong and hasn't been guessed before, track it
-        if (!isCorrect && !missedGuesses.contains(guess)) {
+        // If guess was wrong, track it
+        if (!isCorrect) {
             missedGuesses.add(guess);
         }
 

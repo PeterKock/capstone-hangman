@@ -2,6 +2,14 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+// Potential extra Features:
+// 1. Ask if you want to play again
+// 2. Show how many guesses are left
+// 3. Add difficulty levels
+// 4. Clear screen between turns
+// 5. Save guessed words in a session to avoid duplicates if playing again
+// 6. Handle invalid input
+
 public class Hangman {
 
     /**

@@ -9,6 +9,7 @@ import java.util.Scanner;
 // 4. Clear screen between turns
 // 5. Save guessed words in a session to avoid duplicates if playing again
 // 6. Handle invalid input
+// 7. Obviously add more words to the array
 
 public class Hangman {
 

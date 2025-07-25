@@ -116,6 +116,26 @@ public class Hangman {
         System.out.println("\n"); // Extra line after misses
     }
 
+    /**
+     * Checks if the user has already guessed this character (either correctly or incorrectly).
+     *
+     * @param guess The letter to check.
+     * @param placeholders The array of correctly guessed letters.
+     * @param missedGuesses The list of incorrect guesses.
+     * @return true if the letter has already been guessed, false otherwise.
+     */
+    public static boolean alreadyGuessed(char guess, char[] placeholders, ArrayList<Character> missedGuesses) {
+        // Check if letter is already revealed
+        for (char c : placeholders) {
+            if (c == guess) {
+                return true;
+            }
+        }
+
+        // Check if letter is in missed guesses
+        return missedGuesses.contains(guess);
+    }
+
     public static void main(String[] args) {
 
         // Pick a random word and prepare placeholders
@@ -160,25 +180,7 @@ public class Hangman {
         // Otherwise treat it as a single letter guess
         char guess = input.charAt(0);
 
-
-        // Check if the letter was already guessed (either correct or incorrect)
-        boolean alreadyGuessed = false;
-
-        // Check if guess is in placeholders (already guessed correctly)
-        for (char c : placeholders) {
-            if (c == guess) {
-                alreadyGuessed = true;
-                break;
-            }
-        }
-
-        // Check if guess is in missedGuesses (already guessed incorrectly)
-        if (missedGuesses.contains(guess)) {
-            alreadyGuessed = true;
-        }
-
-        // If already guessed, skip this turn
-        if (alreadyGuessed) {
+        if (alreadyGuessed(guess, placeholders, missedGuesses)) {
             System.out.println("You already guessed that letter. Try a different one.\n");
             continue;
         }

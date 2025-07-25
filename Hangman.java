@@ -207,7 +207,9 @@ public class Hangman {
         for (char c : placeholders) {
             System.out.print(c + " ");
         }
-        System.out.println("\n"); // Add spacing for clarity
+        
+        // Add spacing for clarity
+        System.out.println("\n"); 
     }
 
     /**
@@ -222,10 +224,14 @@ public class Hangman {
     public static boolean handleFullWordGuess(String input, String word, ArrayList<Character> missedGuesses) {
         if (input.equals(word)) {
             System.out.println("You win! The word was: " + word);
-            return true; // game ends
+
+            // game ends
+            return true;
         } else {
             System.out.println("Incorrect word guess.");
-            missedGuesses.add('*'); // Add a penalty marker
+
+            // Add a penalty marker
+            missedGuesses.add('*');
             return false;
         }
     }

@@ -66,7 +66,7 @@ public class Hangman {
     "\n +---+\n" +
     " |   |\n" +
     " O   |\n" +
-    "/|\\  |\n" +
+    "/|\\  |\n" + // backslash requires escaping: \\
     "/    |\n" +
     "     |\n" +
     "=========\n",
@@ -74,30 +74,117 @@ public class Hangman {
     "\n +---+\n" +
     " |   |\n" +
     " O   |\n" +
-    "/|\\  |\n" +
+    "/|\\  |\n" + // backslash requires escaping: \\
     "/ \\  |\n" + // backslash requires escaping: \\
     "     |\n" +
     "=========\n"
 };
 
+    /**
+     * The main method initializes the game state, handles user input,
+     * and controls the overall game loop.
+     *
+     * Game Flow Overview:
+     * 1. Initializes word, placeholders, and missed guesses
+     * 2. Loops until the game ends (win or 6 mistakes)
+     *  2a. Displays gallows, placeholders, and misses each round
+     *  2b. Gets and processes user input (letter or full-word guess)
+     *  2c. Checks for win/loss conditions
+     */
 
+    public static void main(String[] args) {
+
+        // 1. Pick a random word and prepare placeholders
+        String word = randomWord();
+
+        // Array to hold _ _ _ placeholders
+        char[] placeholders = new char[word.length()];
+
+        // List to track incorrect guesses
+        ArrayList<Character> missedGuesses = new ArrayList<>();
+
+        Scanner scanner = new Scanner(System.in);
+
+            // Fill the placeholder array with underscores
+            for (int i = 0; i < placeholders.length; i++) {
+            placeholders[i] = '_';
+        }
+
+        // 2. Main game loop: continues until win or 6 incorrect guesses
+        while (true) {
+
+            // 2a. Display current gallows state based on number of misses
+            System.out.println(gallows[missedGuesses.size()]);
+
+            // Display the current state of the word with guessed letters and underscores
+            printPlaceholders(placeholders);
+
+            // Display all incorrect guesses made so far
+            printMisses(missedGuesses);
+
+            // 2b. Prompt user for input
+            String input = getUserInput(scanner);
+
+            // If the user enters more than one character, treat it as a full-word guess.
+            // If correct, end the game. If incorrect, add a penalty and skip the rest of the loop.
+            if (input.length() > 1) {
+                if (handleFullWordGuess(input, word, missedGuesses)) break;
+                continue;
+            }
+
+            // Otherwise treat it as a single letter guess
+            char guess = input.charAt(0);
+
+            // Check if the letter has already been guessed (either correct or incorrect)
+            if (alreadyGuessed(guess, placeholders, missedGuesses)) {
+                System.out.println("You already guessed that letter. Try a different one.\n");
+                continue;
+            }
+
+            // Try updating the placeholders with the guessed letter
+            // If the guess is incorrect (not found in the word), add it to missed guesses
+            boolean isCorrect = updatePlaceholders(guess, word, placeholders);
+            if (!isCorrect) {
+                missedGuesses.add(guess);
+            }
+
+            // 2c. Check win condition: if there are no underscores left
+            if (checkWin(word, placeholders)) {
+                System.out.println();
+                System.out.println("You win! The word was: " + word);
+                System.out.println();
+                break;
+            }
+
+            // Check loss condition: 6 incorrect guesses
+            if (missedGuesses.size() == 6) {
+                System.out.println(gallows[6]);
+                System.out.println();
+                System.out.println("You lose! The word was: " + word);
+                System.out.println();
+                break;
+            }
+        }
+
+    // Close input resource
+    scanner.close();
+}
     
     // -----------------------------------------------------------------------------
     // Method Overview (Helper Functions)
     // -----------------------------------------------------------------------------
-    // randomWord()           - Randomly selects a target word from a predefined list
-    // printPlaceholders()    - Displays the current word progress (e.g., "_ a _ _")
-    // printMisses()          - Displays all incorrect guesses made so far
-    // alreadyGuessed()       - Checks if a guess (letter) was already attempted
-    // updatePlaceholders()   - Reveals guessed letters in the correct positions
-    // checkWin()             - Determines if the full word has been guessed
-    // getUserInput()         - Handles user input and normalizes it to lowercase
-    // printUpdatedWord()     - Displays the current state of the word after guess
-    // handleFullWordGuess()  - Processes full-word guesses and updates state
+    // 1. randomWord()           - Randomly selects a target word from a predefined list
+    // 2. printPlaceholders()    - Displays the current word progress (e.g., "_ a _ _")
+    // 3. printMisses()          - Displays all incorrect guesses made so far
+    // 4. alreadyGuessed()       - Checks if a guess (letter) was already attempted
+    // 5. updatePlaceholders()   - Reveals guessed letters in the correct positions
+    // 6. checkWin()             - Determines if the full word has been guessed
+    // 7. getUserInput()         - Handles user input and normalizes it to lowercase
+    // 8. handleFullWordGuess()  - Processes full-word guesses and updates state
     // -----------------------------------------------------------------------------
     
     /**
-     * Selects and returns a random word from the static list of animal names.
+     * 1. Selects and returns a random word from the static list of animal names.
      * This method uses java.util.Random to generate a random index.
      *
      * @return A randomly selected animal name from the words array.
@@ -109,7 +196,7 @@ public class Hangman {
     }
 
     /**
-     * Prints the current state of the guessed word with spaces between letters.
+     * 2. Prints the current state of the guessed word with spaces between letters.
      *
      * @param placeholders The array representing correct guesses and blanks.
      */
@@ -122,7 +209,7 @@ public class Hangman {
     }
 
     /**
-     * Prints the list of incorrect guesses made by the user.
+     * 3. Prints the list of incorrect guesses made by the user.
      *
      * @param missedGuesses A list containing incorrect letter guesses or '*' for wrong full-word attempts.
      */
@@ -135,7 +222,7 @@ public class Hangman {
     }
 
     /**
-     * Checks if the user has already guessed this character (either correctly or incorrectly).
+     * 4. Checks if the user has already guessed this character (either correctly or incorrectly).
      *
      * @param guess The letter to check.
      * @param placeholders The array of correctly guessed letters.
@@ -155,7 +242,7 @@ public class Hangman {
     }
 
     /**
-     * Updates the placeholders array if the guessed letter is in the word.
+     * 5. Updates the placeholders array if the guessed letter is in the word.
      *
      * @param guess The guessed letter.
      * @param word The target word.
@@ -174,7 +261,7 @@ public class Hangman {
     }
 
     /**
-     * Checks if the player has guessed the entire word.
+     * 6. Checks if the player has guessed the entire word.
      *
      * @param word The target word.
      * @param placeholders The current placeholder array.
@@ -190,7 +277,7 @@ public class Hangman {
     }
 
     /**
-     * Prompts the user to enter a guess and returns it as a lowercase string.
+     * 7. Prompts the user to enter a guess and returns it as a lowercase string.
      *
      * @param scanner The Scanner object used to read user input.
      * @return The user's input in lowercase.
@@ -200,23 +287,8 @@ public class Hangman {
         return scanner.next().toLowerCase();
     }
 
-    // /**
-    //  * Prints the updated word after each guess with a header label.
-    //  *
-    //  * @param placeholders The array of guessed letters and remaining blanks.
-    //  */
-    // public static void printUpdatedWord(char[] placeholders) {
-    //     System.out.print("Updated word: ");
-    //     for (char c : placeholders) {
-    //         System.out.print(c + " ");
-    //     }
-        
-    //     // Add spacing for clarity
-    //     System.out.println("\n"); 
-    // }
-
     /**
-     * Handles full-word guesses by the user. If correct, ends the game.
+     * 8. Handles full-word guesses by the user. If correct, ends the game.
      * If incorrect, adds a penalty marker and returns false.
      *
      * @param input The user's input.
@@ -242,100 +314,5 @@ public class Hangman {
             return false;
         }
     }
-
-    /**
-     * The main method initializes the game state, handles user input,
-     * and controls the overall game loop.
-     *
-     * Game Flow Overview:
-     * 1. Initializes word, placeholders, and missed guesses
-     * 2. Displays gallows, placeholders, and misses each round
-     * 3. Gets and processes user input (letter or full-word guess)
-     * 4. Checks for win/loss conditions
-     * 5. Loops until the game ends (win or 6 mistakes)
-     */
-
-    public static void main(String[] args) {
-
-        // Pick a random word and prepare placeholders
-
-        // The word the user needs to guess
-        String word = randomWord();
-
-        // Array to hold _ _ _ placeholders
-        char[] placeholders = new char[word.length()];
-
-        // List to track incorrect guesses
-        ArrayList<Character> missedGuesses = new ArrayList<>();
-
-        Scanner scanner = new Scanner(System.in);
-
-            // Fill the placeholder array with underscores
-            for (int i = 0; i < placeholders.length; i++) {
-            placeholders[i] = '_';
-        }
-
-        // Main game loop: continues until win or 6 incorrect guesses
-        while (true) {
-
-        // Display current gallows state based on number of misses
-        System.out.println(gallows[missedGuesses.size()]);
-
-        // Display the current state of the word with guessed letters and underscores
-        printPlaceholders(placeholders);
-
-        // Display all incorrect guesses made so far
-        printMisses(missedGuesses);
-
-        // Prompt user for input
-        String input = getUserInput(scanner);
-
-        // If the user enters more than one character, treat it as a full-word guess.
-        // If correct, end the game. If incorrect, add a penalty and skip the rest of the loop.
-        if (input.length() > 1) {
-            if (handleFullWordGuess(input, word, missedGuesses)) break;
-            continue;
-        }
-
-        // Otherwise treat it as a single letter guess
-        char guess = input.charAt(0);
-
-        // Check if the letter has already been guessed (either correct or incorrect)
-        if (alreadyGuessed(guess, placeholders, missedGuesses)) {
-            System.out.println("You already guessed that letter. Try a different one.\n");
-            continue;
-        }
-
-        // Try updating the placeholders with the guessed letter
-        // If the guess is incorrect (not found in the word), add it to missed guesses
-        boolean isCorrect = updatePlaceholders(guess, word, placeholders);
-        if (!isCorrect) {
-            missedGuesses.add(guess);
-        }
-
-        // // Display the updated word after processing the guess
-        // printUpdatedWord(placeholders);
-
-        // Check win condition: if there are no underscores left
-        if (checkWin(word, placeholders)) {
-            System.out.println();
-            System.out.println("You win! The word was: " + word);
-            System.out.println();
-            break;
-        }
-
-        // Check loss condition: 6 incorrect guesses
-        if (missedGuesses.size() == 6) {
-            System.out.println(gallows[6]);
-            System.out.println();
-            System.out.println("You lose! The word was: " + word);
-            System.out.println();
-            break;
-        }
-    }
-
-    // Close input resource
-    scanner.close();
-}
 
 }

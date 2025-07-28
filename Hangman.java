@@ -290,7 +290,7 @@ public class Hangman {
      * @return The user's input in lowercase.
      */
     public static String getUserInput(Scanner scanner) {
-        System.out.print("Enter a letter to guess: ");
+        System.out.print("Enter a letter or a word to guess the animal: ");
         return scanner.next().toLowerCase();
     }
 

@@ -75,7 +75,7 @@ public class Hangman {
     "\n +---+\n" +
     " |   |\n" +
     " O   |\n" +
-    "/|\\  |\n" + // backslash requires escaping: \\
+    "/|\\  |\n" + 
     "/    |\n" +
     "     |\n" +
     "=========\n",
@@ -83,8 +83,8 @@ public class Hangman {
     "\n +---+\n" +
     " |   |\n" +
     " O   |\n" +
-    "/|\\  |\n" + // backslash requires escaping: \\
-    "/ \\  |\n" + // backslash requires escaping: \\
+    "/|\\  |\n" + 
+    "/ \\  |\n" + 
     "     |\n" +
     "=========\n"
 };
@@ -114,55 +114,16 @@ public class Hangman {
 
         Scanner scanner = new Scanner(System.in);
 
-            // Fill the placeholder array with underscores
-            for (int i = 0; i < placeholders.length; i++) {
+        // Fill the placeholder array with underscores
+        for (int i = 0; i < placeholders.length; i++) {
             placeholders[i] = '_';
         }
 
         // 2. Main game loop: continues until win or 6 incorrect guesses
         while (true) {
 
-            // 2a.
-            // print the gallows stage based on the number of incorrect guesses.
-            // Prevents ArrayIndexOutOfBoundsException if missedGuesses.size() exceeds 6
-            System.out.println(gallows[Math.min(missedGuesses.size(), gallows.length - 1)]);
-
-            // Display the current state of the word with guessed letters and underscores
-            printPlaceholders(placeholders);
-
-            // Display all incorrect guesses made so far
-            printMisses(missedGuesses);
-
-            // 2b. Prompt user for input
-            String input = getUserInput(scanner);
-
-            // If the user enters more than one character, treat it as a full-word guess.
-            // If correct, end the game. If incorrect, add a penalty and skip the rest of the loop.
-            if (input.length() > 1) {
-                if (handleFullWordGuess(input, word, missedGuesses)) {
-                    break;
-                }
-                continue;
-            }
-
-            // Otherwise treat it as a single letter guess
-            char guess = input.charAt(0);
-
-            // Check if the letter has already been guessed (either correct or incorrect)
-            if (alreadyGuessed(guess, placeholders, missedGuesses)) {
-                System.out.println("\nYou already guessed that letter. Try a different one.");
-                continue;
-            }
-
-            // Try updating the placeholders with the guessed letter
-            // If the guess is incorrect (not found in the word), add it to missed guesses
-            boolean isCorrect = updatePlaceholders(guess, word, placeholders);
-            if (!isCorrect) {
-                missedGuesses.add(guess);
-            }
-
-            // Check loss condition right after a wrong guess
-            if (missedGuesses.size() == 6) {
+            // Check loss condition
+            if (missedGuesses.size() >= 6) {
                 System.out.println(gallows[6]);
                 System.out.println();
                 System.out.println("You lose! The word was: " + word);
@@ -170,7 +131,40 @@ public class Hangman {
                 break;
             }
 
-            // 2c. Check win condition: if there are no underscores left
+            // 2a. Show gallows, word state, and misses
+            System.out.println(gallows[missedGuesses.size()]);
+            printPlaceholders(placeholders);
+            printMisses(missedGuesses);
+
+            // 2b. Get input
+            String input = getUserInput(scanner);
+
+            // If the input is more than one character, treat it as a full-word guess
+            if (input.length() > 1) {
+                // Handle full-word guess; if correct or game over, break the loop
+                if (handleFullWordGuess(input, word, missedGuesses)) {
+                    break;
+                }
+                // Skip the rest of the loop if the word guess was wrong
+                continue;
+            }
+
+            // Extract the first character for single-letter guess
+            char guess = input.charAt(0);
+
+            // Check if this letter was already guessed before
+            if (alreadyGuessed(guess, placeholders, missedGuesses)) {
+                System.out.println("\nYou already guessed that letter. Try a different one.");
+                continue;
+            }
+
+            // Update placeholders if guess is correct; otherwise track as missed
+            boolean isCorrect = updatePlaceholders(guess, word, placeholders);
+            if (!isCorrect) {
+                missedGuesses.add(guess);
+            }
+
+            // 2c. Check win condition
             if (checkWin(word, placeholders)) {
                 System.out.println();
                 System.out.println("You win! The word was: " + word);

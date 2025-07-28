@@ -122,8 +122,10 @@ public class Hangman {
         // 2. Main game loop: continues until win or 6 incorrect guesses
         while (true) {
 
-            // 2a. Display current gallows state based on number of misses
-            System.out.println(gallows[missedGuesses.size()]);
+            // 2a.
+            // print the gallows stage based on the number of incorrect guesses.
+            // Prevents ArrayIndexOutOfBoundsException if missedGuesses.size() exceeds 6
+            System.out.println(gallows[Math.min(missedGuesses.size(), gallows.length - 1)]);
 
             // Display the current state of the word with guessed letters and underscores
             printPlaceholders(placeholders);
@@ -137,7 +139,9 @@ public class Hangman {
             // If the user enters more than one character, treat it as a full-word guess.
             // If correct, end the game. If incorrect, add a penalty and skip the rest of the loop.
             if (input.length() > 1) {
-                if (handleFullWordGuess(input, word, missedGuesses)) break;
+                if (handleFullWordGuess(input, word, missedGuesses)) {
+                    break;
+                }
                 continue;
             }
 
@@ -157,19 +161,19 @@ public class Hangman {
                 missedGuesses.add(guess);
             }
 
-            // 2c. Check win condition: if there are no underscores left
-            if (checkWin(word, placeholders)) {
-                System.out.println();
-                System.out.println("You win! The word was: " + word);
-                System.out.println();
-                break;
-            }
-
-            // Check loss condition: 6 incorrect guesses
+            // Check loss condition right after a wrong guess
             if (missedGuesses.size() == 6) {
                 System.out.println(gallows[6]);
                 System.out.println();
                 System.out.println("You lose! The word was: " + word);
+                System.out.println();
+                break;
+            }
+
+            // 2c. Check win condition: if there are no underscores left
+            if (checkWin(word, placeholders)) {
+                System.out.println();
+                System.out.println("You win! The word was: " + word);
                 System.out.println();
                 break;
             }
@@ -298,28 +302,37 @@ public class Hangman {
 
     /**
      * 8. Handles full-word guesses by the user. If correct, ends the game.
-     * If incorrect, adds a penalty marker and returns false.
+     * If incorrect, adds a penalty marker. If that was the final allowed miss,
+     * main() will handle the loss message and exit.
      *
      * @param input The user's input.
      * @param word The correct word to guess.
      * @param missedGuesses List of missed guesses to update on failure.
-     * @return true if the game should end, false otherwise.
+     * @return true if the player has won (correct word guessed), or used final guess.
      */
     public static boolean handleFullWordGuess(String input, String word, ArrayList<Character> missedGuesses) {
         if (input.equals(word)) {
             System.out.println();
             System.out.println("You win! The word was: " + word);
             System.out.println();
-
-            // game ends
             return true;
         } else {
             System.out.println();
-            System.out.println("\nIncorrect word guess.");
+            System.out.println("Incorrect word guess.");
             System.out.println();
-            
+
             // Add a penalty marker
             missedGuesses.add('*');
+
+            // Check for loss
+            if (missedGuesses.size() >= 6) {
+                System.out.println(gallows[6]);
+                System.out.println();
+                System.out.println("You lose! The word was: " + word);
+                System.out.println();
+                return true;
+            }
+
             return false;
         }
     }
